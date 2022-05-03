@@ -1,4 +1,3 @@
-
 fun longestCommonPrefix(strs: Array<String>): String {
 
     var prefix = ""
@@ -10,30 +9,23 @@ fun longestCommonPrefix(strs: Array<String>): String {
         }
     }
 
-    var index = 0
-    while (shortestLength >= index) {
-        if (some(strs, index)) {
-            prefix += strs[0][index]
-        } else
-            break
-        index++
+    for (index in 0 .. shortestLength) {
+        for (str in strs)
+            if (str[index] != strs[0][index])
+                return prefix
+
+        prefix += strs[0][index]
     }
 
     return prefix
 }
 
-fun some(arr: Array<String>, charIndex: Int): Boolean {
-    for (str in arr)
-        if (str[charIndex] != arr[0][charIndex])
-            return false
 
-    return true
-}
 
 fun main() {
 
-    val input = arrayOf("cir", "car")
-    val expectedOutput = "c"
+    val input = arrayOf("flower","flow","flight")
+    val expectedOutput = "fl"
     val actualOutput = longestCommonPrefix(input)
     println("Expected output is $expectedOutput and actual output is $actualOutput")
 }
