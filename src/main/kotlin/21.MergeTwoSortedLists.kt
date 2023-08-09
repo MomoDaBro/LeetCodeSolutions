@@ -23,71 +23,90 @@
 //      next1 = next1.next
 //      return returnList
 
-class ListNode(val num: Int) {
-    var next: ListNode? = null
+class ListNode(val `val`: Int, var next: ListNode? = null) {
     override fun toString(): String {
-        return "$num, $next "
-
-
+        return "$`val`, $next "
     }
 }
-
 fun mergeTwoLists(list1: ListNode?, list2: ListNode?): ListNode? {
-    var cur1 = list1
-    var cur2 = list2
-    var returnList: ListNode? = null
 
-    if (cur1 == null)
-        return cur2
-    else if (cur2 == null)
-        return cur1
+    if (list1 == null) return list2
+    if (list2 == null) return list1
 
-    var next1 = cur1.next
-    var next2 = cur2.next
+    var cur1: ListNode = list1
+    var cur2: ListNode = list2
+    val returnList = if (cur1.`val` >= cur2.`val`) list2 else list1
 
-    if (cur1.num >= cur2.num) {
-        cur2.next = cur1
-        returnList = list2
-    } else {
-        cur1.next = cur2
-        returnList = list1
-    }
+    while (true) {
+        if (cur1.`val` >= cur2.`val`){
+            if(cur2.next == null){
+                cur2.next = cur1
+                break
+            }
 
-    while (next1 != null && next2 != null) {
-        if (next1.num <= next2.num) {
-            cur1 = next1
-            next1 = cur1.next
-            cur1.next = next2
-            cur2 = next2
-            next2 = next2.next
+            if(cur1.`val` > cur2.next!!.`val`){
+                cur2 = cur2.next!!
+            } else{
+                val next = cur2.next!!
+                cur2.next = cur1
+                cur2 = next
+            }
         } else {
-            cur2 = next2
-            next2 = next2.next
-            cur1 = next1
-            cur2.next = cur1
-            next1 = next1.next
+            if(cur1.next == null){
+                cur1.next = cur2
+                break
+            }
+            if(cur2.`val` > cur1.next!!.`val`){
+                cur1 = cur1.next!!
+            } else{
+                val next = cur1.next!!
+                cur1.next = cur2
+                cur1 = next
+            }
         }
-
     }
 
     return returnList
 }
+//fun mergeTwoLists(list1: ListNode?, list2: ListNode?): ListNode? {
+//
+//    if (list1 == null) return list2
+//    if (list2 == null) return list1
+//
+//    var cur1 = list1
+//    var cur2 = list2
+//    var cur3 = ListNode(0)
+//    val returnList = if (cur1.`val` >= cur2.`val`) list2 else list1
+//
+////    while (true) {
+////        if (cur1 == null) {
+////            cur3.next = cur2
+////            break
+////        }
+////        if (cur2 == null) {
+////            cur3.next = cur1
+////            break
+////        }
+////        if(cur1.`val` > cur2.`val`){
+////            cur3.next = cur2
+////            cur2 = cur2.next
+////        }else {
+////            cur3.next = cur1
+////            cur1 = cur1.next
+////        }
+////        cur3 = cur3.next!!
+////    }
+////
+////    return returnList
+//}
 
 fun main() {
 
-    val input1 = ListNode(1)
-    val input2 = ListNode(2)
-    val input3 = ListNode(4)
-    input1.next = input2
-    input2.next = input3
+    val input1 = ListNode(-9, ListNode(-7, ListNode(-3, ListNode(-3, ListNode(-1, ListNode(2, ListNode(3)))))))
+    val input2 =
+        ListNode(-7, ListNode(-7, ListNode(-6, ListNode(-6, ListNode(-5, ListNode(-3, ListNode(2, ListNode(4))))))))
 
-    val input4 = ListNode(1)
-    val input5 = ListNode(3)
-    val input6 = ListNode(4)
-    input4.next = input5
-    input5.next = input6
-
-    val expectedOutput = "[1,1,2,3,4,4]"
+    val expectedOutput = "[-9,-7,-7,-7,-6,-6,-5,-3,-3,-3,-1,2,2,3,4]"
     val actualOutput = mergeTwoLists(input1, input2)
     println("Expected output is $expectedOutput and actual output is $actualOutput")
 
