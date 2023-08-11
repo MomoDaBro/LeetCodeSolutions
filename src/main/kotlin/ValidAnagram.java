@@ -15,6 +15,7 @@ public class ValidAnagram {
         char[] charS = s.toCharArray();
         char[] charT = t.toCharArray();
 
+        // use ascii subtraction
         for(int i = 0; i < s.length(); i++){
             if(charS[i] == 'a') alpha1[0] += 1;
             if(charT[i] == 'a') alpha2[0] += 1;
